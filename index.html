@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="" ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Github Profiler</title>
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="customCss.css">
+	</head>
+	<body ng-controller="GithubController as github">
+		
+		<div class="container">
+
+			<!-- Top Banner -->
+			<div class="well well-lg col-md-10">
+				<h1>Github Profiler</h1>
+				<p class="lead">Find out information about any GitHub user!</p>
+			</div>
+
+			<!-- Input Form group -->
+			<div class="input-group col-md-10">
+				<input ng-model="user" type="text" class="form-control" name="" placeholder="username here">
+				<span class="input-group-btn">
+					<button class="btn btn-default" ng-click="github.callGithubApi(user)">Go!</button>
+				</span>
+				<!--<span class="input-group-btn">
+					<button class="btn btn-default" ng-click="">Go!</button>
+				</span>-->
+			</div>
+
+			<!-- Output -->
+			<div style="margin-top: 7em;" class="row">
+				<!-- Profile Photo and Brief Info -->
+				<div class="col-md-3 colGutter">
+					<div>
+						<img ng-if="github.data === false" src="silhouette-placeholder.jpg" class="img-circle img-responsive">
+						<img ng-if="github.data === true"  ng-src="{{github.img}}" alt="Pending Photo" class="img-circle img-responsive">
+					</div>
+					<div class="text-center">
+						<p style="margin-top: 3em;">Name: {{github.name}}</p>
+						<p>Location: {{github.location}}</p>
+						<p>For Hire?: {{github.hireable}}</p>
+						<p>Slinging code since {{github.created | date:'MMM-d-yyyy'}}</p>
+					</div>
+				</div>	
+				<!-- Followers -->
+				<div class="col-md-3 colGutter">
+					<div class="well">
+						<p class="lead">Followers</p>
+						<p ng-if="vm.loading === true">Loading...></p>
+						<p class="lead" ng-hide="vm.data === false">{{github.followers}}</p>
+					</div>
+				</div>	
+
+				<!-- Following -->
+				<div class="col-md-3 colGutter">
+					<div class="well">
+						<p class="lead">Following</p>
+						<p ng-if="vm.loading === true">Loading...></p>
+						<p class="lead" ng-hide="vm.data === false">{{github.following}}</p>
+					</div>
+				</div>
+
+				<!-- Public Repositories -->
+				<div class="col-md-3 colGutter">
+					<div class="well">
+						<p class="lead">Public Repositories</p>	
+						<p ng-if="vm.loading === true">Loading...></p>
+						<p class="lead" ng-hide="vm.data === false">{{github.publicRepos}}</p>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Repositories Button and Output -->
+			<div ng-if="github.data === true">
+				<div>
+					<button class="btn btn-default" ng-click="github.callGithubRepositories(user1)">Repositories</button>
+				</div>
+				<table class="table table-striped table-hover">
+					<thead>
+						<th>Repository Name</th>
+						<th>Url</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="projects in github.repos">
+							<td>{{projects.name}}</td>
+							<td><a ng-href="{{projects.html_url}}">{{projects.html_url}}</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="navbar navbar-default navbar-fixed-bottom">
+    			<div class="container">
+      				<p class="navbar-text pull-left">© 2016 - Copyright Stuff</p>
+    			</div>
+  			</div>
+		</div>	
+	
+
+ 		<!-- Angular.js -->
+	    <script src="bower_components/angular/angular.js"></script>
+	    <!-- jQuery -->
+	    <script src="//code.jquery.com/jquery.js"></script>
+	    <!-- Bootstrap JavaScript -->
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	    <!--JavaScript Files-->
+	    <script src="app/app.module.js"></script>
+	    <script src="app/Home/home.controller.js"></script>
+	</body>
+</html>
